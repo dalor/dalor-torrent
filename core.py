@@ -30,7 +30,6 @@ def run_aria(torrent, ids, info_after):
         status[pid]['downloading'] = True
         prev = b''
         for i in process.stdout:
-            print(i)
             try:
                 if b'FILE:' == i[:5]:
                     fname = re.search(r'FILE: temps/(.*)\\n', str(i)).group(1)
@@ -140,7 +139,8 @@ async def download(request):
 
 @routes.get('/status')
 async def stats(request):
-    st = dict(status)
+    print(status)
+    st = status.copy()
     for i in [i for i in status if not status[i]['downloading']]: del status[i]
     return web.json_response(st)
 
