@@ -10,7 +10,7 @@ import simplejson as json
 import sys
 import re
 
-max_storage_size = 450000000 #In bytes
+max_storage_size = 100000000000 #In bytes
 aria2 = 'aria2c' #Executor command or path to programm
 temp_path = 'temps' #Path to save temp files #MUST BE CREATED
 path = 'downloads' #Path to save files #MUST BE CREATED
@@ -52,12 +52,9 @@ def run_aria(torrent, ids, info_after):
         if not process.stderr:
             for f in info['files']:
                 try:
-                    os.rename(os.path.join(temp_path, f), os.path.join(path, f))
-                except FileExistsError:
-                    os.remove(os.path.join(temp_path, f))
-                    status[pid]['errors'].append('File was already downloaded')
-                except FileNotFoundError:
-                    status[pid]['errors'].append('File was removed')
+                    shutil.move(os.path.join(temp_path, f), path)
+                except:
+                    status[pid]['errors'].append('Error while moving')
         else:
             status[pid]['errors'].append('Was error while downloading!!! Try to clear cache after all downloads')
             for f in info['files']:
