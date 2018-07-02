@@ -139,7 +139,7 @@ async def download(request):
 
 @routes.get('/status')
 async def stats(request):
-    print(status)
+    global status
     st = status.copy()
     for i in [i for i in status if not status[i]['downloading']]: del status[i]
     return web.json_response(st)
