@@ -6,7 +6,7 @@ import os
 import signal
 import shutil
 import subprocess
-import json
+import simplejson as json
 import sys
 import re
 
@@ -30,6 +30,7 @@ def run_aria(torrent, ids, info_after):
         status[pid]['downloading'] = True
         prev = b''
         for i in process.stdout:
+            print(i)
             try:
                 if b'FILE:' == i[:5]:
                     fname = re.search(r'FILE: temps/(.*)\\n', str(i)).group(1)
